@@ -5,13 +5,17 @@ import com.ecommerce.user_service.model.User;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.test.web.servlet.MockMvc;
 import tools.jackson.databind.ObjectMapper;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest(properties = {
 		"app.jwt.secret=MDEyMzQ1Njc4OWFiY2RlZjAxMjM0NTY3ODlhYmNkZWY=",
@@ -20,6 +24,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 		"spring.datasource.password=",
 		"spring.jpa.database-platform=org.hibernate.dialect.H2Dialect"
 })
+@AutoConfigureMockMvc
 class UserServiceApplicationTests {
 
 	@Autowired
@@ -27,6 +32,9 @@ class UserServiceApplicationTests {
 
 	@Autowired
 	private ObjectMapper objectMapper;
+
+	@Autowired
+	private MockMvc mockMvc;
 
 	@Test
 	void contextLoads() {
@@ -54,6 +62,14 @@ class UserServiceApplicationTests {
 		assertEquals(rawPassword, request.getPassword());
 		assertFalse(objectMapper.writeValueAsString(request).contains("password"));
 		assertFalse(objectMapper.writeValueAsString(user).contains(user.getPassword()));
+	}
+
+	@Test
+	void singularRegistrationRouteIsPublic() throws Exception {
+		mockMvc.perform(post("/api/user/register")
+				.contentType("application/json")
+				.content("{}"))
+				.andExpect(status().isBadRequest());
 	}
 
 }
