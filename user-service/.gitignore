@@ -4,6 +4,19 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+
+# Kubernetes credentials
+kubernetes/user-service/secret.yaml
+
+# Java build output
+user-service/target/
+
+
+
 ### STS ###
 .apt_generated
 .classpath
