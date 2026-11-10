@@ -29,8 +29,8 @@ spec:
 
             - name: POSTGRES_USER
               valueFrom:
-                configMapKeyRef:
-                  name: postgres-config
+                secretKeyRef:
+                  name: postgres-secret
                   key: POSTGRES_USER
 
             - name: POSTGRES_PASSWORD
@@ -45,11 +45,11 @@ spec:
 
           resources:
             requests:
-              memory: "128Mi"
-              cpu: "100m"
+              memory: "64Mi"
+              cpu: "50m"
             limits:
-              memory: "256Mi"
-              cpu: "500m"
+              memory: "192Mi"
+              cpu: "300m"
 
       volumes:
         - name: postgres-storage

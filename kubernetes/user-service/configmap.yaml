@@ -5,6 +5,5 @@ metadata:
   namespace: ecommerce
 data:
   SPRING_DATASOURCE_URL: "jdbc:postgresql://postgres.ecommerce.svc.cluster.local:5432/ecommerce"
-  SPRING_DATASOURCE_USERNAME: "postgres"
-  SPRING_KAFKA_BOOTSTRAP_SERVERS: "kafka.ecommerce.svc.cluster.local:9092"
+  SPRING_KAFKA_BOOTSTRAP_SERVERS: "kafka:29092"
   SERVER_PORT: "8081"

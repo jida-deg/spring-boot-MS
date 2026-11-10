@@ -22,11 +22,25 @@ spec:
           envFrom:
             - configMapRef:
                 name: user-service-config
-            - secretRef:
-                name: user-service-secret
+          env:
+            - name: SPRING_DATASOURCE_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: POSTGRES_USER
+            - name: SPRING_DATASOURCE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: POSTGRES_PASSWORD
+            - name: JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: user-service-secret
+                  key: JWT_SECRET
           resources:
             requests:
-              memory: "256Mi"
+              memory: "192Mi"
               cpu: "100m"
             limits:
               memory: "512Mi"
