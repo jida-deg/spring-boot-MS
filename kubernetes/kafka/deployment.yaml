@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: kafka
+  namespace: ecommerce
   labels:
     app: kafka
 spec:
@@ -36,7 +37,7 @@ spec:
               value: "PLAINTEXT://:9092,CONTROLLER://:9093"
 
             - name: KAFKA_ADVERTISED_LISTENERS
-              value: "PLAINTEXT://kafka:9092"
+              value: "PLAINTEXT://kafka.ecommerce.svc.cluster.local:9092"
 
             - name: KAFKA_CONTROLLER_LISTENER_NAMES
               value: "CONTROLLER"
@@ -45,7 +46,7 @@ spec:
               value: "CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT"
 
             - name: KAFKA_CONTROLLER_QUORUM_VOTERS
-              value: "1@kafka:9093"
+              value: "1@kafka.ecommerce.svc.cluster.local:9093"
 
             - name: KAFKA_INTER_BROKER_LISTENER_NAME
               value: "PLAINTEXT"
@@ -64,3 +65,14 @@ spec:
 
             - name: KAFKA_NUM_PARTITIONS
               value: "1"
+
+            - name: KAFKA_HEAP_OPTS
+              value: "-Xms256m -Xmx256m"
+
+          resources:
+            requests:
+              memory: "384Mi"
+              cpu: "250m"
+            limits:
+              memory: "640Mi"
+              cpu: "1000m"

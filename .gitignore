@@ -4,7 +4,7 @@
 !.env.example
 
 # Kubernetes credentials
-kubernetes/user-service/secret.yaml
+kubernetes/**/secret.yaml
 
 # Java build output
 user-service/target/
